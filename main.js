@@ -1,5 +1,13 @@
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow, shell} = require('electron')
 let mainWindow
+
+
+function updateBadge(title) {
+	if (title.indexOf('Messenger') === -1) return
+	const messageCount = (/\(([0-9]+)\)/).exec(title)
+	app.dock.setBadge(messageCount ? messageCount[1] : '')
+}
+
 
 function createWindow () {
   mainWindow = new BrowserWindow({
@@ -17,12 +25,25 @@ function createWindow () {
   // mainWindow.webContents.openDevTools()
 
 
-  mainWindow.on('closed', () => {
-    mainWindow = null
-  })
+  mainWindow.on('closed', () => mainWindow = null)
+  mainWindow.on('page-title-updated', (e, title) => updateBadge(title))
+  return mainWindow
 }
 
-app.on('ready', createWindow)
+// app.on('ready', createWindow)
+
+app.on('ready', () => {
+  const main = createWindow()
+  const page = main.webContents
+  page.on('dom-ready', () => {
+    // page.insertCSS(fs.readFileSync(path.join(__dirname, 'browser.css'), 'utf8'))
+    main.show()
+  })
+  page.on('new-window', (e, url) => {
+    e.preventDefault()
+    shell.openExternal(url)
+  })
+})
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
