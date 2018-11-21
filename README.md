@@ -1,5 +1,9 @@
 # facebook app unofficial
 
+<!-- [logo]:(`Screen.png`) -->
+
+![alt text](Screen.png)
+
 **Clone and run for a quick way to see Electron in action.**
 
 This is a minimal Electron application based on the [Quick Start Guide](https://electronjs.org/docs/tutorial/quick-start) within the Electron documentation.

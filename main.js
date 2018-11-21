@@ -19,7 +19,7 @@ function createWindow () {
     webPreferences: {
       nodeIntegration: false,
       'web-security': false,
-      preload: path.join(__dirname, 'renderer.js'),
+      // preload: path.join(__dirname, 'rendserer.js'),
       'plugins': true
     }
   })
@@ -30,7 +30,7 @@ function createWindow () {
 
   mainWindow.on('closed', () => mainWindow = null)
   mainWindow.on('page-title-updated', (e, title) => {
-    e.preventDefault()
+    // e.preventDefault()
     updateBadge(title)
   })
   return mainWindow
